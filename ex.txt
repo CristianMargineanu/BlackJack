@@ -1,0 +1,458 @@
+Copierea vectorilor : System.arraycopy(a, 0, b, 0, a.length);
+sortarea vectorului : java.util.Arrays.sort(v);
+
+ Variabile/obiecte:
+public - poate fi apelat peste tot
+protected - poate fi apelat doar in subclase
+private - poare fi apelat doar in clasa respectiva
+implicit - poate fi apelat doar in pachetul respectiv
+Static - o variabila este de clasa si nu de instanta( cea de instanta memoreaza fiecare atribuire - cea de clasa memoreaza ultima atribuire)
+final - indica faptul ca valoarea nu mai poate fi modificata
+transient - este folosit la serializarea obiectelor( specifica obiectele care nu participa la serializare)
+volatile - semnalizeaz complatorul sa nu execute anumite optimizari asupra membrilor clasei
+
+
+ Clase:
+public - poate fi apelata in orice alta clasa
+final - nu poate avea subclase
+abstract - nu poate fi instantiata
+
+ Metode:
+static - declara ca este de clasa nu de instanta( opereaza doar pe variabile statice/de clasa)
+abstract - este metoda abstracta si nu are implementare( obligatoriu sa faca parte dintr-o clasa abstracta)
+final - nu poate fi supradefinita in subclasele clasei in care este definita
+native - in cazul in care sunt librarii importate din alte limbaje de programare, acestea pot fi refolosite in java cu tehnologia JNI(Java Native Interface)
+synchronized - este folosit cand se lucreaza cu mai multe fire de executie, iar metoda respectiva gestioneaza resurse comune
+
+
+ Exceptii:
+try{// Instructiuni care pot genera exceptii}
+catch (TipExceptie1 variabila) {// Tratarea exceptiilor de tipul 1}
+finally {// Cod care se executa indiferent daca apar sau nu exceptii }
+
+Java permite unei metode sa arunce exceptiile aparute in cadrul ei la un nivel superior, adica functiilor care o apeleaza sau sistemului
+
+ Tipuri de exceptii: 
+ Throwable - Superclasa tuturor erorilor si exceptiilor
+ {
+ 	Error - Definesc situatii exceptionale declansate de factori externi ai aplicatiei si aceasta nu ii poate anticipa si nu poate reveni
+ 	{
+ 		OutOfMemoryError - alocarea unui obiect foarte mare
+ 		StackOverFlowError - indica faptul ca aplicatia a intrat intr-un loop
+ 	}
+ 	Exception - ar trebui sa prinda exceptia si sa o trateze/ permita continuarea rularii programului
+ 	{
+ 		RuntimeException - produs de diverse bug-uri de programare ( erori de logica, folosirea incorecta a unui API, etc.)
+		{
+			NullPointerException - accesarea membrilor unui obiect care are valoarea null
+			ArithmeticException - operatii aritmetice ilegale( impartirea intregilor la 0, ! pentru float sau double nu genereaza exceptie ! )
+			(Array)IndexOutOfBoundsException - accesarea eronata a elementelor unui vector
+		}
+		IOException - exceptii ce apar la operatii de intrare/iesire 
+		FileNotFoundException - apare in cazul in care valoare introdusa este gresita ( numele unui fisier pe care vrem sa il deschidem)
+		NoSuchFieldException - utilizarea unui atribut care nu a fost definit
+ 	}
+ }
+
+
+
+
+  Apelari ale tipurilor de exceptii pentru a vedea mesajul:
+.getMessage() - afiseaza detaliile unei exceptii
+.printStackTrace() - afiseaza informatiile complete despre exceptie si localizarea ei
+.toString() - furnizeaza reprezentarea ca sir de caractere a exceptiei
+.fillInStackTrace() - returneaza o referinta la clasa Throwable
+
+
+flux de intrare - flux(sau canal de comunicatie) care citeste date de pe un proces
+flux de iesire - flux(sau canal de comunicatie) care scrie date pe un proces
+proces producator - un proces care descrie o sursa externa de date
+proces consumator - un proces care descrie o destinatie externa pentru date
+fluxuri de octeti (InputStream/OutputStream)- comunicare seriala pe 8 biti
+fluxuri de caractere (Reader/Writer)- comunicare serial pe 16 biti
+fluxuri primare de citire/scriere
+fluxuri pentru procesarea datelor
+
+Fluxuri primitive:
+
+Fisier (FileReader, FileWriter, FileInputStream, FileOutputStream) - sunt folosite pentru citirea/scrierea datelor dintr-un fisier
+Memorie (CharArrayReader, CharArrayWriter, ByteArrayInputStream, ByteArrayOutputStream) - folosesc pentru citirea/scrierea informatiilor din/in memorie si sunt create pe un vector deja existent
+Pipe (PipedReader, PipedWriter, PipedInputStream, PipedOutputStream) - sunt folosite pentru a canaliza iesirea unui program sau fie de executie catre intrarea altui program
+
+Fluxuri de procesare:
+
+Bufferizare (BufferedReader, BufferedWriter, BufferedInputStream, BufferedoutputStream) - sunt folosite pentru a introduce un buffer(zona de memorie) in proces, reducand astfel numarul de accesari la dispozitiv. iar cand bufferul este plin datele sunt transferate in fisier.
+Filtrare (FilterReader, FilterWriter, FilterInputStream, FilterOutputStream) - sunt clase abstracte ce definesc o interfata comuna pentru fluxuri care filtreaza automat datele
+Conversie octeti-caractere (InputStreamReader, OutputStreamWriter) - formeaza o punte de legatura intre fluxurile de caractere si fluxurile de octeti
+Concatenare (SequenceInputStream) - Concateneaza mai multe fluxuri de intrare intr-unul singur
+Serializare (ObjectInputStream, ObjectOutputStream) - seunt folosite pentru serializarea obiectelor
+Converise tipuri de date (DataInputStream, DataOutputStream) - folosite la scriere/citirea datelor de tip primitiv in format binar 
+Numarare (LineNumberReader, LineNumberInputStream) - numarare automata a liniilor citite de la un flux de intrare
+Citire in avans (PushbackReader, PushbackInputStream) fluxuri de intrare care au buffer de 1 caractere(octet) in care este citit in avans si caracterul care urmeaza celui curent citit
+Afisare (PrintWriter, PrintStream) - Metode pentru afisarea informatiilor 
+
+*Reader/*Writer - sunt folsoite pentru citire/scriere de caractere
+*InputStream/*OutputStream - sunt folosite pentru citire/scriere de octeti
+
+ CREAREA UNUI FLUX TREBUIE FACUTA INTR-UN BLOC TRY-CATCH SI SA ARUNCE EXCEPTIILE FileNotFoundException sau IOException !!!
+
+numeBuffer.flush() - goleste bufferul chiar daca nu este plin, datele se scriu in fisier
+
+linie = numeBuffer.readLine() - citeste linie cu linie datele de intrare
+
+Fluxuri standard:
+
+System.in - flux de intrare de tip InputStream
+System.out - flux de iesire de tip PrintStream
+System.err - flux pentru erori de tip PrintStream ( catch(Exception e) { System.err.println("Exceptie:" + e); }     )
+
+Analiza lexicala pe fluxuri (clasa StreamTokenizer) - proceseaza un flux de intrare si il imparte in atomi lexicali (identificatori / numere/ sir de caractere/ comentarii/ separatori)
+
+Tipuri si Valori de atomi lexicali se identifica prin:
+
+TT_EOF - marcheaza sfarsitul fluxului
+TT_EOL - marcheaza sfarsitul unei linii
+TT_NUMBER - atom de tip numar
+TT_WORD - atom de tip cuvant
+ttype - tipul ultimului atom citit din flux
+nval - valoarea unui atom numeric
+sval - valoare unui atom de tip cuvant
+
+Clasa RandomAccesFile (Fisiere cu acces direct) {RandomAccessFile(StringnumeFisier, StringmodAcces("r"- read-only sau "rw"-read-write)) throws IOException; }
+- permite accesul direct la fisier
+- este subclasa a clasei Object
+-se gaseste in pachetul java.io
+-permite scriere/citire din/in fisier cu acces direct
+-permite specificarea modului de acces al fisierului (read-only, read-write)
+
+Metode pentru controlul pointerului:
+-skipByte - muta pointerul inainte cu x octeti
+-seek - pozitioneaza pointerul inaintea octetului specificat
+-getFilePointer - returneaza pozitia pointerului
+
+ Interfete - poate fi doar publica , extinde alte interfete,
+
+ O clasa poate implementa mai multe interfete, cand o clasa implementeaza o anumita interfata trebuie obligatoriu sa specifice cod pentru TOATE METODELE INTERFETEI
+
+ Metode pentru obiecte de tip stiva:
+ - push - adauga un nou element in stiva
+ - pop - elimina elementul din varful stivei
+ - peek - returneaza varful stivei
+ - empty - verifica daca stiva este vida
+ - toString - returneaza continutul sub forma de sir de caractere
+
+  O interfata este in mare parte o clasa abstracta  in care toate metodele sunt abstracte (nu au nici o implementare).
+  O casa abstracta nu poate inlocui o interfata deoarece unele clase sunt fortate sa extinda o anumita clasa (clasa applet) si nu ar mai putea sa extinda o alta clasa pentru ca in java nu exista decat mostenire simpla.
+
+ In multe situatii interfetele si clasele abstracte sunt folosite impreuna pentru a implementa cat mai flexibil si eficient o anumita ierarhie de clase:
+ -interfata List care impune protocolul pe care il respecta o clasa lista
+ -clasa abstracta AbstractList care implementeaza interfata List
+ -clase concrete (LinkedList, ArrayList) care extind AbstractList
+
+ O interfata mosteneste atat constantele cat si declaratiile de metode de la superinterfetele sale
+
+ Orice clasa de specificare a unui filtru care implementeaza interfata *FilenameFilter* trebuie sa implementeze metoda *accept* a acestei interfete 
+
+Metode uzuale ale clasei String:
+-endsWith - testeaza daca un sir contine o anumita terminatie
+-indexOf - testeaza daca un sir contine un anumit subsir, returnand pozitia acestuia sau 0 in caz contrar
+
+In cazul in care avem o interfata care contine mai multe metode si avem nevoie doar de o metoda, el trebuie sa implementeze toate metodele, dar daca avem nevoie doar de o metoda si celelalte nu sunt deloc utilizate putem folosi adaptori
+Un adaptor este o clasa abstracta care implementeaza o anumita interfata fara a specifica cod nici unei metode a interfetei, mai apoi clasa abstract (adaptorul) este apelata in interiorul clasei dorite
+
+Pachete standard(J2SDK):
+-java.lang - clase de baza ale limbajului Java
+-java.io - intrari/iesiri, lucru cu fisiere
+-java.util - clase si interfete utile 
+-java.applet - dezvoltarea de appleturi
+-java.awt - interfata grafica cu utilizatorul
+-java.awt.event - mecanisme de tratare a evenimentelor generate de utilizator 
+-java.beans - scrierea de componente reutilizabile
+-java.net - programare de retea 
+-java.sql - lucru cu baze de date 
+-java.rmi - executie la distanta Remote Message Interface
+-java.security - mecanisme de securitate: criptare, autentificare
+-java.math - operatii matematice cu numere mari 
+-java.text - lucru cu texte, date si numere independent de limba
+-java.lang.reflect - introspectie
+-javax.swing - interfata grafica cu utilizatorul, mult imbogatita fata de awt 
+...
+
+Pentru a folosi o clasa publica dintr-un anumit pachet, sau pentru a apela o metoda publica a unei clase publice a unui pachet se folosesc solutiile:
+-specificarea numelui complet al clasei (Button)
+-importul clasei respective(java.awt)
+-importul intregului pachet in care se gaseste clasa(java.awt.Button) 
+
+In cazul in care dorim sa compilam explicit toate fisierele java dintr-un anumit director folosim:
+-  javac surse/pachet/pachet/*.java -d clase (unde -d specifica directorul radacina al ierarhiei de clase)
+
+Operatii uzuale pentru folosirea utilitarului JAR:
+- jar cf arhiva.jar fisier-intrare ( crearea unei arhive )
+- jar tf nume-arhiva (viualizarea continutului)
+- jar xf arhiva.jar ( extragerea continutului )
+- jar xf arhiva.jar fisier-arhivat ( extragerea doar a unor fisiere )
+- java -jar arhiva.jar ( extragerea unei aplicatii )
+- <applet code=A.class archive="arhiva.jar" ...> ( deschiderea unui applet arhivat )
+
+O colectie este un obiect care grupeaza mai multe elemente intr-o singura unitate. Prin intermediul lor avem acces la vectori, liste, stive, tabele, etc.
+Sunt folosite atat pentru memorarea si manipularea datelor cat si pentru transmiterea informatiilor de la o metoda la alta  
+
+Colectiile sunt organizate intr-o arhitectura eficienta si flexibila ce cuprinde:
+-Interfete : tipuri abstracte de date ce descriu colectii si permit ultilizare lor independent de detaliile implementarilor
+-Implementari : implementari concrete ale interfetelor ce descriu colectii ( aceste clase reprezinta tipuri de date reutilizabile )
+-Algoritmi : metode care efectueaza diverse operatii utile cum ar fi cautarea sau sortarea, definite pentru obiecte ce implementeaza interfetele ce descriu colectii( algoritmi polimorfici deoarece se pot fi folositi pe implementari diferite ale colectilor )
+
+Interfetele reprezinta nucleul mecanismului de lucru cu colectii permite utilizarea de date independent.
+- Collection modeleaza o colectie la nivel general:
+//metode cu caracter general
+	size();
+	isEmpty();
+	clear();
+	iterator();
+//operatii la nivel de element 
+	contains(Object element);
+	add(Object element);
+	remove(Object element);
+//operatii la nivel de multime
+	containsAll(Collection c);
+	addAll(Collection c);
+	removeAll(Collection c);
+	retainAll(Collection c);
+//metode de conversie in vector 
+	toArray();
+	toArray(Object a[]);
+//subliste
+	subSet(Object fromElement, Object toElement);
+	headSet(Object toElement);
+	tailSet(Object fromElement);
+//capete
+	first();
+	last();
+
+Folosiera lui "get" in ArrayList este mai rapida in timp ce LinkedList este foarte lent deoarece intr-o lista inlantuita accesul la element se face prin parcurgerea listei pana la elementul respectiv  
+
+Algoritmi polimorfici sunt metode ce permit efectuarea operatiilor utile ex cautarea, sortarea, etc:
+-sunt metode de clasa (statice)
+-au un singur argument de tip colectie  
+-sunt apelate sub forma Collections.algoritm(colectie, [argumente])
+-majoritatea opereaza pe liste dar si pe colectii arbitrare
+
+Metode folosite in clasa Collections:
+-sort - sorteaza ascendent o lista  
+-shuffle - amesteca elementele unei liste
+-binarySearch - efectuezaza cautarea eficienta a unui element intr-o lista  
+-reverse - inverseaza ordinea elementelor intr-o lista  
+-fill - populeaza lista cu un element repetat de un numar de ori 
+-copy - copie elementele unei liste in alta 
+-min - returneaza minimul dintr-o colectie  
+-max - returneaza maximul dintr-o colectie  
+-swap - interschimba elementele de la 2 pozitii specificate
+-enumeration - returneaza o enumerare a elementelor dintr-o colectie 
+-unmodifiableTipColectie - returneaza o instanta care nu poate fi modificata a colectiei respective
+-syncronizedTipColectie - returneaza o instanta sincronizata a unei colectii 
+
+Enumeration: 
+-hasMoreElements ( while (e.hasMoreElements()) )
+-nextElement ( System.out.println(e.nextElement()); )
+
+Iterator: hasNext, next, remove 
+for (Iterator it = v.iterator(); it.hasNext();) {
+	Object obj = it.next();
+	if (obj == null)
+		it.remove();
+}
+
+
+ListIterator: hasNext, hasPrevious, next, previous, remove, add, set  
+for (ListIterator it = v.listIterator(); it.hasNext(); ){
+	Object obj = it.next();
+	if (obj == null)
+		it.set(new Integer(0));
+}
+
+
+Serializarea este o metoda ce permite transformarea unui obiect intr-o secventa de octeti sau caractere din care sa poata fi refacut ulterior obiectul original
+
+Aspectele serializarii:
+-Asigura un mecanism simplu de utilizat pentru salvarea si restaurarea datelor
+-permite persistenta obiectelor, durata de viata a unui obiect nu este determinata de executia unui program  
+-compensarea diferentelor intre sisteme de operare- transmiterea unor informatii intre platforme de lucru diferite se realizeaza unitar
+-transmitereaa datelor in retea- aplicatii ce ruleaza in retea pot comunica intre ele folosind fluxuri pe care sunt trimise
+-RMI(Remote Method Invocation)- modalitate prin care petodele unor obiecte de pe o alta masina pot fi apelate  
+-java beans - sunt componente reutilizabile, de sine statatoare ce pot fi utilizate in medii vizuale de dezvoltare a aplicatiilor
+
+Metode pentru serializare:
+-writeObject - pentru scriere
+-readObject - pentru restaurare
+
+Componente AWT:
+- button 
+- canvas suprafata de desenare
+- Checkbox 
+- Choice - liste in care doar elementul selectat este vizibil
+- Container - superclasa tuturor suprafetelor(Window, Panel, ScrollPane)
+- Label
+- List
+- Scrollbar
+- TextComponent - superclasa componentelor pentru editarea textului
+
+Cele mai folosite componente AWT:
+Pozitie : get/setLocation , get/setX, get/setY, getLocationOnScreen
+Dimensiuni: get/setSize, get/setHeight, get/setWidth
+Dimensiuni si pozitie: get/setBounds
+Culoare: get/setBackground,  get/setForeground
+Font : get/setFont
+Vizibilitate: set/isVisible
+Interactivitate: set/isEnable
+
+Cele mai folosite metode in clasa Container:
+- add(o componenta poate apartine unui singur container, ca sa apara in altul trebuie eliminata din primul container)
+- remove 
+- setLayout
+- getInsets (determina distnata rezervata pentru marginile suprafetei de afisare)
+- validate
+
+Pentru gestionarea pozitiilor in container putem folosi: ex: container.setLayout(new FlowLayout())
+-FlowLayout
+-BorderLayout
+-GridLayout
+-CardLayout
+-GridBagLayout ii este asociat un obiect de tip GridBagConstraints cu urmatoarele tipuri de variabile:
+ 		- gridx, gridy - celula ce reprezinta coltul componentei
+ 		- gridwidth, gridheight - numarul de celule pe lunie si coloane
+ 		- fill - specifica daca o componenta ocupa intreg spatiul destinat
+ 		- insets - distante intre componenta si margini 
+ 		- anchor - folosit cand componenta este mai mica decat suprafata
+ 		- weigthx, weigthy - folosite pentru distributia spatiului liber 
+ 		
+
+Evenimente de nivel jos:
+-ComponentEvent(Ascundere, deplasare, redimensionare, afisare)
+-ContainerEvent(Adaugare pe container, eliminare)
+-FocusEvent(Obtinere, pierdere focus)
+-KeyEvent(Apasare, eliberare taste, tastare)
+-MouseEvent(Click, drag, etc)
+-WindowEvent(minimalizare, maximizare, etc)
+
+Evenimente semantice:
+-ActionEvent (actionare)
+-AdjustmentEvent(ajustarea unei valori)
+-ItemEvent(schimbarea starii)
+-TextEvent(Schimbarea textului)
+
+
+Component:
+-ComponentListener: -componentHidden (ComponentEvent e)
+					-componentMoved (ComponentEvent e)
+					-componentResized (ComponentEvent e)
+					-componentShown (ComponentEvent e)
+
+-FocusListener: -focusGained (FocusEvent e)
+				-focusLost (FocusEvent e)
+
+-KeyListener: -keyPressed(MouseEvent e)
+			  -keyReleased(MouseEvent e)
+			  -keyTyped(MouseEvent e)
+
+-MouseListener: -mouseClicked(MouseEvent e)
+				-mouseEntered(MouseEvent e)
+				-mouseExited(MouseEvent e)
+				-mousePressed(MouseEvent e)
+				-mouseReleased(MouseEvent e)
+
+-MouseMotionListener: -mouseDragged(MouseEvent e)
+					  -mouseMoved(MouseEvent e)
+
+Container:
+-ContainerListener: -componentAdded(ContainerEvent e)
+					-componentRemoved(ContainerEvent e)
+
+Window:
+-WindowListener: -windowActivated(WindowEvent e)
+				 -windowClosed(WindowEvent e)
+				 -windowClosing(WindowEvent e)
+				 -windowDeactivated(WindowEvent e)
+				 -windowDeiconified(WindowEvent e)
+				 -windowIconified(WindowEvent e)
+				 -windowOpened(WindowEvent e)
+
+Button, List, MenuItem, TextField:
+-ActionListener: -actionPerformed(ActionEvent e)
+
+Choice, Checkbox, List, CheckMenuItem:
+ItemListener: -itemStateChanged(ItemEvent e)
+
+Scrollbar:
+-AdjustmentListener: -adjustementValueChanged(AdjustementEvent e)
+
+TextField, TextArea:
+-TestListener: -textValueChanged(TextEvent e)
+
+Clasa Window: 
+-show (face vizibila fereastra)
+-hide ( face invizibila fereastra fara a o distruge )
+-isShowing (testeaza daca fereastra este vizibila)
+-dispose (inchide fereastra fara inchiderea aplicatiei)
+-pack (redimensioneaza fereastra automat la o suprafata care sa cuprinda toate elementele)
+-getFocusOwner (returneaza componenta ferestrei care are focus-ul)
+
+Clasa Frame:
+-getFrames (returneaza lista tuturor ferestrelor deschise )
+-setIconImage (seteaza iconita ferestrei)
+-setMenuBar (Seteaza bara de meniuri a ferestrei)
+-setTitle (seteaza titlul ferestrei)
+-setResizable (seteaza daca fereastra poate fi redimensionata de utilizator)
+
+Clasa Dialog: 
+- ferestre de dialog modale  blocheaza accesul la fereastra parinte in momentul deschiderii lor
+- ferestre de dialog nemodale nu blocheaza fluxul de intrare catre fereastra parinte
+
+Clasa MenuShortcut:
+-singurele combinatii de taste care pot juca rolul acceleratorilor sunt:
+      Ctrl + Tasta    (ex Ctrl + O: new MenuItem("Open", new MenuShortcut(KeyEvent.VK_O)); )
+      Ctrl + Shift + Tasta. (ex Ctrl + Shift + P: new MenuItem("Preview", new MenuShortcut('p'), true) ; )
+ !
+Clasa Label:
+- o componenta pentru plasarea unui text pe o suprafata de afisare.
+-poate fi modificata doar in program, nu si de utilizator
+
+Clasa Button:
+-o componenta pentru plasarea unui buton pe suprafata de afisare(label)
+
+Clasa Checkbox:
+- o componenta care se poate gasi in 2 stari : bifata/nebifata.
+- este folosit pentru a prelua o anumita optiune de la utilizator
+
+Clasa CheckboxGroup (butoane radio):
+-un grup de comutatoare in care doar unul poate fi selectat
+
+Clasa Choice:
+-o lista de optiuni din care utilizatorul poate selecta una singura
+-este insotita de un buton eticheta cu o sageata care la apasare este afisata intraga lista, dupa selectare ramane vizibila doar varianta selectata
+
+Clasa List:
+- o lista de optiuni care poate fi setata astfel incat utilizatorul sa poata alege una sau mai multe optiuni.
+- toate elementele listei sunt vizibile in limita dimensiunilor
+
+Clasa ScrollBar:
+- o bara de defilare verticala sau orizontala 
+- este utila pentru punerea la dispozitia utilizatorului unei metode sugestive de a alege o anumit valoare dintr-un interval
+
+Clasa ScrollPanel:
+-permite atatsare unor bare de defilare(scroll) orizintale si/sau verticale oricarei componente grafice
+-este util pentru componentele care nu au implementata functionalitatea de defilare automata (ex: listele, ...)
+
+Clasa TextField:
+-un control de editare a textului pe o singura linie
+-este util pentru interogarea utiliatorului asupra unor valori
+
+Clasa TextArea:
+-un control de editare a textului pe mai multe linii
+-este util pentru editarea de texte, introducerea unor comentarii, etc...
+
+
+
+ex de la 255
+270
+
+
