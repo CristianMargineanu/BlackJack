@@ -109,14 +109,12 @@ public class BlackJackGui extends JFrame {
                             stay.setVisible(false);
                             equals.setVisible(true);
                             restartGame();
-                        }
-                        if (playerSum == 21) {
+                        }else if (playerSum == 21) {
                             hitCard.setVisible(false);
                             stay.setVisible(false);
                             win.setVisible(true);
                             restartGame();
-                        }
-                        if (dealerSum == 21) {
+                        }else if (dealerSum == 21) {
                             CardsService.updateImage(dealer1Card, "cards/" + hiddenCard + ".jpg");
                             hitCard.setVisible(false);
                             stay.setVisible(false);
